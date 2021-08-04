@@ -46,7 +46,9 @@
 
 
 import sys  # Used for command line arguments
-import os
+import scapy
+import pyrcrack
+import asyncio  # Used for asynchronous waiting and command line interaction
 from time import sleep, time
 
 
@@ -56,9 +58,11 @@ from time import sleep, time
 # Checks that all libraries/dependencies are in place,
 # updates them, finds available wireless interface and
 # checks/sets it to monitoring mode.
-def initialise():
+async def initialise():
+    airmon = pyrcrack.AirmonNg()
+    print([interface.asdict() for interface in await airmon.interfaces])
+
     print("All updated and ready to hunt.")
-    return
 
 
 # Performs a scan of the wireless access points within range,
@@ -112,9 +116,9 @@ def notify(bssid):
     print("Suspect WAP: " + bssid)
     return
 
+asyncio.run(initialise())
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+
+
