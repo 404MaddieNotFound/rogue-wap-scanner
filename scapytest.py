@@ -1,9 +1,11 @@
-import scapy
+import scapy.layers.l2
 from scapy.all import *
 import argparse
+import sys
 
 
 def get_args():
+    print(sys.path)
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--target', dest='target', help='Target IP Address/Addresses')
     options = parser.parse_args()
@@ -14,17 +16,11 @@ def get_args():
     return options
 
 
-def scan(ip):
+def scan():
+    sniff(iface="WiFi 2", timeout=10)
 
 
-
-    arp_req_frame = scapy.ARP(pdst=ip)
-
-    broadcast_ether_frame = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
-
-    broadcast_ether_arp_req_frame = broadcast_ether_frame / arp_req_frame
-
-    answered_list = scapy.srp
-
-someOptions = get_args()
-print(someOptions)
+# someOptions = get_args()
+# print(someOptions)
+scan()
+sniff(timeout=10)
