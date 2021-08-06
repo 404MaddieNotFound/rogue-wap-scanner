@@ -1,4 +1,3 @@
-import scapy.layers.l2
 from scapy.all import *
 import argparse
 import sys
@@ -17,7 +16,7 @@ def get_args():
 
 
 def scan():
-    sniff(iface="WiFi 2", timeout=10)
+    sniff(iface="WiFi 2", timeout=10, prn=Packet.summary)
 
 
 # someOptions = get_args()
