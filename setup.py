@@ -11,3 +11,6 @@ def setup():
     except:
         sys.exit(1)
     os.system('ifconfig wlan1 up')
+
+
+setup()
