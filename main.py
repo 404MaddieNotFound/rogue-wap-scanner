@@ -19,7 +19,7 @@
 # Helper functions: create_current_wap_list(), create_new_wap_list(),
 # Performs a scan of the wireless access points within range,
 # saves a PCAP and list of WAPs from the scan.
-# Outputs: PCAP of most recent scan, list of WAPs discovered,
+# Outputs: PCAP/csv of most recent scan, list of WAPs discovered,
 # user message that scan has been completed.
 
 # detect_rogues():

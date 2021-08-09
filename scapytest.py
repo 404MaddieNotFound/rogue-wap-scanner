@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from scapy.all import *
 import argparse
 import sys
