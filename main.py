@@ -29,8 +29,8 @@
 # comparing to whitelist, comparing to blacklist, identifying if SSID
 # or BSSID spoofing is being used, identifying weak or no encryption,
 # identifying no authorisation, identifying known hacking tools.
-# Outputs: edits the attributes of the master list of WAPs,
-# notifies user of any new suspect WAPs.
+# Outputs: edits the attributes of the master list of APs,
+# notifies user of any new suspect APs.
 
 # add_to_whitelist(bssid):
 # Takes the BSSID to be whitelisted as an argument
