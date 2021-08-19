@@ -1,13 +1,14 @@
 from scapy.all import *
-from scapy.layers.dot11 import *
-from scapy.layers.inet import *
-from scapy.layers.l2 import *
+#from scapy.layers.dot11 import *
+#from scapy.layers.inet import *
+#from scapy.layers.l2 import *
 
 ap_list = []
 
 
 def packethandler(pkt):
-    print(pkt.layers)
+    for layer in pkt.layers():
+        print(layer)
     if pkt.haslayer(Dot11Beacon):
         print("Found a Dot11!!!!!!!!!!!!!!!!!!!!!!!!!!")
         if pkt.type == 0 and pkt.subtype == 8:

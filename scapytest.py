@@ -20,12 +20,10 @@ AP = dict(
 
 # Initial global lists which will be turned into saved files
 apList = []  # Master list of all seen APs
-whitelist = []  # User approved APs
-blacklist = []  # Definite malicious/bad APs
 interface = "WiFi 2"
 
 
-def get_args():
+def user_input():
     print(sys.path)
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--target', dest='target', help='Target IP Address/Addresses')
@@ -74,19 +72,41 @@ def change_channel():
         channel = channel % 14 + 1      # Switches between channels 1 - 15
         time.sleep(1)
 
-# someOptions = get_args()
-# print(someOptions)
+
 scan()
 
 
 
 def analyse():
 
-    if AP['riskStatus'] == 'white':
-        print("She okay.")
-        return
-    elif AP['riskStatus'] == 'black':
-        print("Oh shit we in trouble now")
-    elif AP['riskStatus'] == 'grey':
-        print("Just some neighbourly wifi action.")
+    suspicionLevel = 'green'
+    # Check if AP has already appeared and its current classification
+    if AP in apList:
+        if AP['riskStatus'] == 'white':
+            suspicionLevel = 'green'
+            print("She okay.")
+            return
+        elif AP['riskStatus'] == 'black':
+            suspicionLevel = 'red'
+            print("Oh shit we in trouble now")
+        elif AP['riskStatus'] == 'grey':
+            suspicionLevel = 'green'
+            print("Just some neighbourly wifi action.")
+        elif AP['riskStatus'] == 'unset':
+            suspicionLevel = 'yellow'
+            print("Seen before but not something we know about.")
 
+    # AP is newly appeared (or reappeared once time expiring storage implemented)
+    else:
+        suspicionLevel = 'yellow'
+        print("Something new.")
+        # Adds new AP to master list
+        apList.append(AP)
+
+    # Checks for SSID spoofing
+
+    # Checks BSSID for known pentesting tools
+
+    # Checks encryption
+
+    return suspicionLevel
