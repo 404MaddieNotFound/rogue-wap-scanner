@@ -38,7 +38,7 @@ def print_all():
 def change_channel():
     ch = 1
     while True:
-        os.system(f"iwconfig {interface} channel {ch}")
+        os.system("iwconfig wlan1 channel "+ ch)
         # switch channel from 1 to 14 each 0.5s
         ch = ch % 14 + 1
         time.sleep(0.5)
@@ -46,7 +46,7 @@ def change_channel():
 
 if __name__ == "__main__":
     # interface name, check using iwconfig
-    interface = "WiFi 2"
+    interface = "wlan1"
     # start the thread that prints all the networks
     printer = Thread(target=print_all)
     printer.daemon = True

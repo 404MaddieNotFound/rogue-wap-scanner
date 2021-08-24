@@ -20,7 +20,7 @@ AP = dict(
 
 # Initial global lists which will be turned into saved files
 apList = []  # Master list of all seen APs
-interface = "WiFi 2"
+interface = "wlan1"
 
 
 def user_input():
@@ -36,18 +36,18 @@ def user_input():
 
 
 def scan():
-    #sniff(iface=interface, timeout=2, prn=packet_printer)
-    sniff(iface=interface, timeout=5, prn=Packet.summary)
+    sniff(iface=interface, timeout=2, prn=packet_printer)
+    #sniff(iface=interface, timeout=5, prn=Packet.summary)
 
 
 def packet_printer(packet):
-    if packet.haslayer(scapy.layers.Dot11.Dot11Beacon):
+    if packet.haslayer(Dot11Beacon):
 
         mac = packet[Dot11].addr2
         ssid = packet[Dot11].info.decode()
 
-        if packet.addr2 not in apList:
-            apList.append(packet[Dot11Beacon].addr2)
+        #if packet.addr2 not in apList:
+         #   apList.append(packet[Dot11].addr2)
 
         try:
             signalStrength = packet.dBm_AntSignal
@@ -58,7 +58,7 @@ def packet_printer(packet):
         channel = otherStats.get("channel")
         encryption = otherStats.get("crypto")
 
-        print("AP MAC: %s with SSID: %s \nSignal strength (dB): %3 \nChannel: %s \nEncryption: %s" %(mac, ssid, signalStrength, channel, encryption))
+        print("AP MAC: %s with SSID: %s \nSignal strength (dB): %s \nChannel: %s \nEncryption: %s" %(mac, ssid, signalStrength, channel, encryption))
     else:
         print("Not dot 11 beacon.")
     return
@@ -68,7 +68,7 @@ def packet_printer(packet):
 def change_channel():
     channel = 1
     while True:
-        os.system(f"iwconfig {interface} channel {channel}")
+        os.system("iwconfig wlan1 channel " + ch)
         channel = channel % 14 + 1      # Switches between channels 1 - 15
         time.sleep(1)
 
