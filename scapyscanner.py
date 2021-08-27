@@ -126,21 +126,21 @@ def change_channel():
         time.sleep(0.5)
 
 
-def analyse(bssid):
+def analyse(AP):
     suspicionLevel = 'green'
     # Check if AP has already appeared and its current classification
-    if bssid in APlist:
-        if APlist.loc[bssid]['Risk Status'] == 'white':
+    if AP['BSSID'] in APlist:
+        if AP['Risk Status'] == 'white':
             suspicionLevel = 'green'
             print("All okay.")
             return
-        elif APlist.loc[bssid]['Risk Status'] == 'black':
+        elif APlist.loc[AP]['Risk Status'] == 'black':
             suspicionLevel = 'red'
             print("Danger! This AP has been flagged as malicious.")
-        elif APlist.loc[bssid]['Risk Status'] == 'grey':
+        elif APlist.loc[AP]['Risk Status'] == 'grey':
             suspicionLevel = 'green'
             print("Just some neighbourly wifi action.")
-        elif APlist.loc[bssid]['Risk Status'] == 'unknown':
+        elif APlist.loc[AP]['Risk Status'] == 'unknown':
             suspicionLevel = 'yellow'
             print("Seen before but not something we know about.")
 
@@ -151,19 +151,19 @@ def analyse(bssid):
 
         # A basic check for SSID spoofing
         for each in APlist:
-            if activeList.loc[bssid]['SSID'] == APlist.loc[each]['SSID']:
+            if activeList.loc[AP]['SSID'] == APlist.loc[each]['SSID']:
                 suspicionLevel = 'red'
                 print("SSID spoofing suspected for AP with BSSID %s and SSID %s danger!" % (
-                    activeList.loc[bssid], activeList.loc[bssid]['SSID']))
+                    activeList.loc[AP], activeList.loc[AP]['SSID']))
 
         # Check MAC address for known pentesting tools
 
         # Check encryption type for soft access points
 
         # Add the newly spotted AP to the AP master list
-        APlist.loc[bssid] = (
-            activeList.loc[bssid]['SSID'], activeList.loc[bssid]['Channel'], activeList.loc[bssid]['Encryption'],
-            activeList.loc[bssid]['Signal Strength (dBm)', 'unknown'])
+        APlist.loc[AP] = (
+            activeList.loc[AP]['SSID'], activeList.loc[AP]['Channel'], activeList.loc[AP]['Encryption'],
+            activeList.loc[AP]['Signal Strength (dBm)', 'unknown'])
 
     return suspicionLevel
 
@@ -207,24 +207,24 @@ def display():
 
 if __name__ == "__main__":
 
-#    setup()  # Set monitor mode
- #   fetch()
+    setup()  # Set monitor mode
+    fetch()
     # Start display thread
     APdisplay = Thread(target=display)
     APdisplay.daemon = True
     APdisplay.start()
 
     # Start channel switcher
- #   channel_switch = Thread(target=change_channel)
- #   channel_switch.daemon = True
- #   channel_switch.start()
+    channel_switch = Thread(target=change_channel)
+    channel_switch.daemon = True
+    channel_switch.start()
 
     scan()  # Do the sniff!
 
-    for packet in activeList:
-        analyse(bssid=activeList[packet])  # Make this something that works
+    analyse(activeList[0, :])
+    #for packet in activeList:
+    #    analyse(bssid=activeList[packet])  # Make this data structure access into something that works
 
     # After scan, display and analyse, we need to clear active list and save master list
-
     # clear activeList
     save()
