@@ -1,0 +1,4 @@
+scapy~=git-archive.dev66b611c935
+pyrcrack~=1.1.1
+pandas~=1.3.2
+rich~=7.1.0
